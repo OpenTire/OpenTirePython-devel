@@ -2,17 +2,11 @@ __author__ = 'henningo'
 import abc
 
 class TireModelBase(object, metaclass=abc.ABCMeta):
-    Coefficients = None
-    ModelInfo = None
 
     @abc.abstractmethod
-    def getmodelinfo(self):
+    def get_model_info(self):
         """Return information about the model"""
         return
-
-    @abc.abstractmethod
-    def createmodel(self):
-        """Create a default model"""
 
     @abc.abstractmethod
     def load(self, fname):
@@ -30,10 +24,10 @@ class TireModelBase(object, metaclass=abc.ABCMeta):
         return
 
     @abc.abstractmethod
-    def getparameters(self):
+    def get_parameters(self):
         """Return the parameters dictionary"""
         return
 
     @abc.abstractmethod
-    def setparameters(self, params):
+    def set_parameters(self, params):
         """Set the parameters"""

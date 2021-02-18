@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
-from src import OpenTire
+from src import opentire as ot
 from src.Core import TireState
-from src.Core import TIRFile
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,8 +9,7 @@ import matplotlib.pyplot as plt
 if __name__ == "__main__":
 
     # Initialize the tire model
-    openTire = OpenTire()
-    myTireModel = openTire.createmodel('PAC2002')
+    myTireModel = ot.tire('PAC2002')
 
     # Initialize the tire state
     state = TireState()
