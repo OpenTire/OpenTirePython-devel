@@ -332,7 +332,7 @@ class PAC2002(TireModelBase):
 
         return S_Vyk
 
-    #Region "Pure Fx"
+    # Region "Pure Fx"
 
     def __calculate_B_x(self, C_x, D_x, K_x):
 
@@ -455,7 +455,7 @@ class PAC2002(TireModelBase):
 
     def __calculate_C_t(self):
 
-         # 51
+        # 51
         C_t = self.QCZ1
 
         return C_t
@@ -550,7 +550,7 @@ class PAC2002(TireModelBase):
             state['FX'] = self.calculate_fx(state)
 
         if mode is SolverMode.PureMz:
-            state['MZ'] = self.calculate_mz(state)
+            state['MZ'] = self.calculate_pure_mz(state)
 
         if mode is SolverMode.Mz or mode is SolverMode.All:
             state['MZ'] = self.calculate_mz(state)
