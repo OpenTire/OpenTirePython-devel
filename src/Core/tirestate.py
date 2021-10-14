@@ -1,14 +1,13 @@
 __author__ = 'henningo'
 
-class TireState(dict):
-
-    def __init__(self, *args, **kwargs):
-        self['FX'] = 0.0
-        self['FY'] = 0.0
-        self['FZ'] = 0.0
-        self['MX'] = 0.0
-        self['MY'] = 0.0
-        self['MZ'] = 0.0
-        self['SA'] = 0.0
-        self['SR'] = 0.0
-        self['IA'] = 0.0
+class TireState():
+    def __init__(self, FX=0, FY=0, FZ=0, MX=0, MY=0, MZ=0, SA=0, SR=0, IA=0):
+        self.FX = FX
+        self.FY = FY
+        self.FZ = FZ
+        self.MX = MX
+        self.MY = MY
+        self.MZ = MZ
+        self.SA = SA
+        self.SR = SR
+        self.IA = IA
