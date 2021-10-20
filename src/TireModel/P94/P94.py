@@ -9,8 +9,45 @@ from ..solvermode import SolverMode
 
 
 class Pacejka94(TireModelBase, PureLateral, PureLongitudinal, AligningMoment):
-    def __init__(self):
-        PureLateral.__init__(self)
+    def __init__(self,
+                 a0=1.5,
+                 a1=0,
+                 a2=1.1,
+                 a3=62700,
+                 a4=10000,
+                 a5=0,
+                 a6=0,
+                 a7=-2,
+                 a8=0,
+                 a9=0,
+                 a10=0,
+                 a11=0,
+                 a12=0,
+                 a13=0,
+                 a14=0,
+                 a15=0,
+                 a16=0,
+                 a17=0
+                 ):
+        PureLateral.__init__(self,
+                             a0=a0,
+                 a1=a1,
+                 a2=a2,
+                 a3=a3,
+                 a4=a4,
+                 a5=a5,
+                 a6=a6,
+                 a7=a7,
+                 a8=a8,
+                 a9=a9,
+                 a10=a10,
+                 a11=a11,
+                 a12=a12,
+                 a13=a13,
+                 a14=a14,
+                 a15=a15,
+                 a16=a16,
+                 a17=a17)
         PureLongitudinal.__init__(self)
         AligningMoment.__init__(self)
         self.Name = 'Pacejka94'
