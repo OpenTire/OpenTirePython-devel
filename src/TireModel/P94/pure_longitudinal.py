@@ -3,21 +3,36 @@ from math import sin, atan, copysign, exp
 
 
 class PureLongitudinal():
-    def __init__(self):
-        self.b0 = 1.4
-        self.b1 = 0
-        self.b2 = 1100
-        self.b3 = 1100
-        self.b4 = 10
-        self.b5 = 0
-        self.b6 = 0
-        self.b7 = -2
-        self.b8 = 0
-        self.b9 = 0
-        self.b10 = 1
-        self.b11 = 0
-        self.b12 = 0
-        self.b13 = 0
+    def __init__(self,
+                 b0=1.5,
+                 b1=0,
+                 b2=1.1,
+                 b3=0,
+                 b4=300,
+                 b5=0,
+                 b6=0,
+                 b7=0,
+                 b8=-2,
+                 b9=0,
+                 b10=0,
+                 b11=0,
+                 b12=0,
+                 b13=0):
+
+        self.b0 = b0
+        self.b1 = b1
+        self.b2 = b2
+        self.b3 = b3
+        self.b4 = b4
+        self.b5 = b5
+        self.b6 = b6
+        self.b7 = b7
+        self.b8 = b8
+        self.b9 = b9
+        self.b10 = b10
+        self.b11 = b11
+        self.b12 = b12
+        self.b13 = b13
 
 
     def __calculate_C(self):
@@ -48,8 +63,6 @@ class PureLongitudinal():
 
     def calculate_pure_fx(self, state):
         copy_state = deepcopy(state)
-        copy_state.FZ = copy_state.FZ / 1000  # The formula requires that Fz is in kN
-        copy_state.SR = copy_state.SR * 100 # The formula requires that SR in percentage
         C = self.__calculate_C()
         BCD = self.__calculate_BCD(copy_state)
         D = self.__calculate_D(copy_state)

@@ -3,38 +3,55 @@ from math import sin, atan, copysign
 
 
 class PureLateral():
-    def __init__(self):
-        self.a0 = 1.4
-        self.a1 = 0
-        self.a2 = 1100
-        self.a3 = 1100
-        self.a4 = 10
-        self.a5 = 0
-        self.a6 = 0
-        self.a7 = -2
-        self.a8 = 0
-        self.a9 = 0
-        self.a10 = 1
-        self.a11 = 0
-        self.a12 = 0
-        self.a13 = 0
-        self.a14 = 0
-        self.a15 = 0
-        self.a16 = 0
-        self.a17 = 0
+    def __init__(self,
+                 a0=1.5,
+                 a1=0,
+                 a2=1.1,
+                 a3=62700,
+                 a4=10000,
+                 a5=0,
+                 a6=0,
+                 a7=-2,
+                 a8=0,
+                 a9=0,
+                 a10=0,
+                 a11=0,
+                 a12=0,
+                 a13=0,
+                 a14=0,
+                 a15=0,
+                 a16=0,
+                 a17=0):
+
+        self.a0 = a0
+        self.a1 = a1
+        self.a2 = a2
+        self.a3 = a3
+        self.a4 = a4
+        self.a5 = a5
+        self.a6 = a6
+        self.a7 = a7
+        self.a8 = a8
+        self.a9 = a9
+        self.a10 = a10
+        self.a11 = a11
+        self.a12 = a12
+        self.a13 = a13
+        self.a14 = a14
+        self.a15 = a15
+        self.a16 = a16
+        self.a17 = a17
 
 
     def __calculate_C(self):
-        C = self.a0
-        return C
+        return self.a0
 
     def __calculate_BCD(self, state):
         BCD = self.a3 * sin(atan((state.FZ) / self.a4) * 2) * (1 - self.a5 * abs(state.IA))
         return BCD
 
     def __calculate_D(self, state):
-        D = state.FZ * (self.a1 * state.FZ + self.a2) * (1 - self.a15 * state.IA * state.IA)
-        return D
+        return state.FZ * (self.a1 * state.FZ + self.a2) * (1 - self.a15 * state.IA * state.IA)
 
     def __calculate_B(self, BCD, C, D):
         B = BCD / (C * D)
@@ -59,8 +76,6 @@ class PureLateral():
 
     def calculate_pure_fy(self, state):
         copy_state = deepcopy(state)
-        copy_state.FZ = copy_state.FZ / 1000  # The formula requires that Fz is in kN
-        copy_state.SA = copy_state.SA * 180/3.14 # The formula requires that SA is in deg
         C = self.__calculate_C()
         BCD = self.__calculate_BCD(copy_state)
         D = self.__calculate_D(copy_state)

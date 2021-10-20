@@ -1,17 +1,18 @@
 from copy import deepcopy
 
+from .aligning_moment import AligningMoment
 from .pure_lateral import PureLateral
 from .pure_longitudinal import PureLongitudinal
 from ...Core.tirestate import TireState
 from ..tiremodelbase import TireModelBase
 from ..solvermode import SolverMode
-from math import sin, atan, copysign
 
 
-class Pacejka94(TireModelBase, PureLateral, PureLongitudinal):
+class Pacejka94(TireModelBase, PureLateral, PureLongitudinal, AligningMoment):
     def __init__(self):
         PureLateral.__init__(self)
         PureLongitudinal.__init__(self)
+        AligningMoment.__init__(self)
         self.Name = 'Pacejka94'
         self.Description = 'An implementation of Pacejka 94'
 
@@ -47,7 +48,7 @@ class Pacejka94(TireModelBase, PureLateral, PureLongitudinal):
             state.SA = sa
 
             if mode is SolverMode.PureFy or mode is SolverMode.All:
-                    state.FY = self.calculate_pure_fy(state)
+                state.FY = self.calculate_pure_fy(state)
 
             if mode is SolverMode.PureFx or mode is SolverMode.All:
                 state.FX = self.calculate_pure_fx(state)
@@ -68,6 +69,3 @@ class Pacejka94(TireModelBase, PureLateral, PureLongitudinal):
             states.P.append(state.P)
 
         return states
-
-    def calculate_pure_mz(self, state):
-        pass
