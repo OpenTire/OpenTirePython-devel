@@ -6,7 +6,7 @@ class PureLongitudinal():
     def __init__(self,
                  b0=1.5,
                  b1=0,
-                 b2=1.1,
+                 b2=1100,
                  b3=0,
                  b4=300,
                  b5=0,
