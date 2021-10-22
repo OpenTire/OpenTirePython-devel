@@ -63,6 +63,9 @@ class PureLongitudinal():
 
     def calculate_pure_fx(self, state):
         copy_state = deepcopy(state)
+        copy_state.FZ = copy_state.FZ/1000
+        copy_state.SR = copy_state.SR*100
+
         C = self.__calculate_C()
         BCD = self.__calculate_BCD(copy_state)
         D = self.__calculate_D(copy_state)
