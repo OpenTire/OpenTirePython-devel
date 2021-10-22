@@ -27,7 +27,21 @@ class Pacejka94(TireModelBase, PureLateral, PureLongitudinal, AligningMoment):
                  a14=0,
                  a15=0,
                  a16=0,
-                 a17=0
+                 a17=0,
+                 b0=1.5,
+                 b1=0,
+                 b2=1100,
+                 b3=0,
+                 b4=300,
+                 b5=0,
+                 b6=0,
+                 b7=0,
+                 b8=-2,
+                 b9=0,
+                 b10=0,
+                 b11=0,
+                 b12=0,
+                 b13=0,
                  ):
         PureLateral.__init__(self,
                              a0=a0,
@@ -48,7 +62,22 @@ class Pacejka94(TireModelBase, PureLateral, PureLongitudinal, AligningMoment):
                  a15=a15,
                  a16=a16,
                  a17=a17)
-        PureLongitudinal.__init__(self)
+        PureLongitudinal.__init__(self,
+                                  b0=b0,
+                                  b1=b1,
+                                  b2=b2,
+                                  b3=b3,
+                                  b4=b4,
+                                  b5=b5,
+                                  b6=b6,
+                                  b7=b7,
+                                  b8=b8,
+                                  b9=b9,
+                                  b10=b10,
+                                  b11=b11,
+                                  b12=b12,
+                                  b13=b13,
+                                  )
         AligningMoment.__init__(self)
         self.Name = 'Pacejka94'
         self.Description = 'An implementation of Pacejka 94'
