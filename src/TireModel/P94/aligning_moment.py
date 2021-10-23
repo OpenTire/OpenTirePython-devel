@@ -5,8 +5,8 @@ from math import sin, atan, copysign, exp
 class AligningMoment():
     def __init__(self,
                  c0=1.5,
-                 c1=1/1000,
-                 c2=1.1/100,
+                 c1=1000,
+                 c2=1100,
                  c3=2,
                  c4=3,
                  c5=0,
@@ -24,7 +24,8 @@ class AligningMoment():
                  c17=0,
                  c18=0,
                  c19=0,
-                 c20=0):
+                 c20=0,
+                 ):
 
         self.c0 = c0
         self.c1 = c1
@@ -78,7 +79,7 @@ class AligningMoment():
     def calculate_pure_mz(self, state):
         copy_state = deepcopy(state)
         copy_state.FZ = copy_state.FZ/1000
-        copy_state.SR = copy_state.SR*100
+        copy_state.SA = copy_state.SA*3.14/180
         C = self.__calculate_C()
         BCD = self.__calculate_BCD(copy_state)
         D = self.__calculate_D(copy_state)

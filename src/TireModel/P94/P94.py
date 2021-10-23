@@ -42,6 +42,27 @@ class Pacejka94(TireModelBase, PureLateral, PureLongitudinal, AligningMoment):
                  b11=0,
                  b12=0,
                  b13=0,
+                 c0=1.5,
+                 c1=1000,
+                 c2=1100,
+                 c3=2,
+                 c4=3,
+                 c5=0,
+                 c6=0,
+                 c7=0,
+                 c8=0,
+                 c9=0,
+                 c10=0,
+                 c11=0,
+                 c12=0,
+                 c13=0,
+                 c14=0,
+                 c15=0,
+                 c16=0,
+                 c17=0,
+                 c18=0,
+                 c19=0,
+                 c20=0
                  ):
         PureLateral.__init__(self,
                              a0=a0,
@@ -78,7 +99,29 @@ class Pacejka94(TireModelBase, PureLateral, PureLongitudinal, AligningMoment):
                                   b12=b12,
                                   b13=b13,
                                   )
-        AligningMoment.__init__(self)
+        AligningMoment.__init__(self,
+                                c0=c0,
+                                c1=c1,
+                                c2=c2,
+                                c3=c3,
+                                c4=c4,
+                                c5=c5,
+                                c6=c6,
+                                c7=c7,
+                                c8=c8,
+                                c9=c9,
+                                c10=c10,
+                                c11=c11,
+                                c12=c12,
+                                c13=c13,
+                                c14=c14,
+                                c15=c15,
+                                c16=c16,
+                                c17=c17,
+                                c18=c18,
+                                c19=c19,
+                                c20=c20
+                                )
         self.Name = 'Pacejka94'
         self.Description = 'An implementation of Pacejka 94'
 
