@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-
-import src as ot
-from src import SolverMode
+from src.TireModel import SolverMode
+from src.TireModel.PAC2002 import PAC2002
 from src.Core import TireState
 
 import numpy as np
@@ -11,7 +10,7 @@ if __name__ == "__main__":
 
     # Initialize the tire model
     #myTireModel = ot.tire('PAC2002')
-    myTireModel = ot.PAC2002()
+    myTireModel = PAC2002()
 
     # Initialize the tire state
     state = TireState()
