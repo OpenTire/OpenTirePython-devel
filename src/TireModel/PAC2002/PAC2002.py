@@ -1,4 +1,6 @@
 __author__ = 'henningo'
+
+from ...Core import TireState
 from ..tiremodelbase import TireModelBase
 from ..solvermode import SolverMode
 import math
@@ -61,24 +63,24 @@ class PAC2002(TireModelBase):
         self.LSGAL = 1.0
 
         # Pure Lateral Coefficients
-        self.PCY1 = 1.3507
-        self.PDY1 = 1.0489
-        self.PDY2 = -0.18033
-        self.PDY3 = -2.8821
-        self.PEY1 = -0.0074722
-        self.PEY2 = -0.0063208
-        self.PEY3 = -9.9935
-        self.PEY4 = -760.14
-        self.PKY1 = -21.92
-        self.PKY2 = 2.0012
-        self.PKY3 = -0.024778
-        self.PHY1 = 0.0026747
-        self.PHY2 = 8.9094e-005
-        self.PHY3 = 0.031415
-        self.PVY1 = 0.037318
-        self.PVY2 = -0.010049
-        self.PVY3 = -0.32931
-        self.PVY4 = -0.69553
+        self.PCY1 = 1.3507  #a0
+        self.PDY1 = 1.0489  #a1
+        self.PDY2 = -0.18033    #a2
+        self.PDY3 = -2.8821     #a3
+        self.PEY1 = -0.0074722  #a4
+        self.PEY2 = -0.0063208  #a5
+        self.PEY3 = -9.9935     #a6
+        self.PEY4 = -760.14     #a7
+        self.PKY1 = -21.92      #a8
+        self.PKY2 = 2.0012      #a9
+        self.PKY3 = -0.024778   #a10
+        self.PHY1 = 0.0026747   #a11
+        self.PHY2 = 8.9094e-005 #a12
+        self.PHY3 = 0.031415    #a13
+        self.PVY1 = 0.037318    #a14
+        self.PVY2 = -0.010049   #a15
+        self.PVY3 = -0.32931    #a16
+        self.PVY4 = -0.69553    #a17
 
         # Combined Lateral Coefficients
         self.RBY1 = 7.1433
@@ -535,41 +537,66 @@ class PAC2002(TireModelBase):
     def load(self, fname):
         return 'loading'
 
-    def solve(self, state, mode=SolverMode.All):
-
-        if mode is SolverMode.PureFy or mode is SolverMode.PureMz:
-            state.FY = self.calculate_pure_fy(state)
-
-        if mode is SolverMode.Fy or mode is SolverMode.All:
-            state.FY = self.calculate_fy(state)
-
-        if mode is SolverMode.PureFx:
-            state.FX = self.calculate_pure_fx(state)
-
-        if mode is SolverMode.Fx or mode is SolverMode.All:
-            state.FX = self.calculate_fx(state)
-
-        if mode is SolverMode.PureMz:
-            state.MZ = self.calculate_pure_mz(state)
-
-        if mode is SolverMode.Mz or mode is SolverMode.All:
-            state.MZ = self.calculate_mz(state)
-
-        if mode is SolverMode.Mx or mode is SolverMode.All:
-            state.MX = self.calculate_mx(state)
-
-        if mode is SolverMode.Mz or mode is SolverMode.All:
-            state.MY = self.calculate_my(state)
-
-        if mode is SolverMode.Radius or mode is SolverMode.All:
-            state.RL, state.RE = self.calculate_radius(state)
-
-        if mode is SolverMode.Relaxation or mode is SolverMode.All:
-            state.SIGMA_ALPHA = self.calculate_lateral_relaxation_length(state)
-            state.SIGMA_KAPPA = self.calculate_longitudinal_relaxation_length(state)
+    def solve(self, input_state, mode=SolverMode.All):
+        state = TireState()
+        states = TireState(FX=[], FY=[], FZ=[], MX=[], MY=[], MZ=[], SA=[], SR=[], IA=[], V=[], P=[])
+        state_table = TireState(FX=[], FY=[], FZ=[], MX=[], MY=[], MZ=[], SA=[], SR=[], IA=[], V=[], P=[])
+        state_table.FZ = input_state.FZ * len(input_state.SA) * len(input_state.SR)
+        state_table.IA = input_state.IA * len(input_state.SA) * len(input_state.SR)
+        state_table.SA = input_state.SA * len(input_state.SR)
+        state_table.SR = len(input_state.SA) * input_state.SR
 
 
-        return state
+        for fz, ia, sr, sa in zip(state_table.FZ, state_table.IA, state_table.SR, state_table.SA):
+            state.FZ = fz
+            state.IA = ia
+            state.SR = sr
+            state.SA = sa
+
+            if mode is SolverMode.PureFy or mode is SolverMode.PureMz:
+                state.FY = self.calculate_pure_fy(state)
+
+            if mode is SolverMode.Fy or mode is SolverMode.All:
+                state.FY = self.calculate_fy(state)
+
+            if mode is SolverMode.PureFx:
+                state.FX = self.calculate_pure_fx(state)
+
+            if mode is SolverMode.Fx or mode is SolverMode.All:
+                state.FX = self.calculate_fx(state)
+
+            if mode is SolverMode.PureMz:
+                state.MZ = self.calculate_pure_mz(state)
+
+            if mode is SolverMode.Mz or mode is SolverMode.All:
+                state.MZ = self.calculate_mz(state)
+
+            if mode is SolverMode.Mx or mode is SolverMode.All:
+                state.MX = self.calculate_mx(state)
+
+            if mode is SolverMode.Mz or mode is SolverMode.All:
+                state.MY = self.calculate_my(state)
+
+            if mode is SolverMode.Radius or mode is SolverMode.All:
+                state.RL, state.RE = self.calculate_radius(state)
+
+            if mode is SolverMode.Relaxation or mode is SolverMode.All:
+                state.SIGMA_ALPHA = self.calculate_lateral_relaxation_length(state)
+                state.SIGMA_KAPPA = self.calculate_longitudinal_relaxation_length(state)
+
+        states.FX.append(state.FX)
+        states.FY.append(state.FY)
+        states.FZ.append(state.FZ)
+        states.MX.append(state.MX)
+        states.MY.append(state.MY)
+        states.MZ.append(state.MZ)
+        states.SA.append(state.SA)
+        states.SR.append(state.SR)
+        states.IA.append(state.IA)
+        states.V.append(state.V)
+        states.P.append(state.P)
+
+        return states
 
     def get_parameters(self):
         return 0
