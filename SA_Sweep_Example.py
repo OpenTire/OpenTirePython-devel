@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-from src import opentire as ot, SolverMode
+import src as ot
+from src import SolverMode
 from src.Core import TireState
 
 import numpy as np
@@ -10,17 +11,17 @@ if __name__ == "__main__":
 
     # Initialize the tire model
     #myTireModel = ot.tire('PAC2002')
-    myTireModel = ot.tire('Pacejka94')
+    myTireModel = ot.PAC2002()
 
     # Initialize the tire state
     state = TireState()
-    state['FZ'] = 4000
-    state['IA'] = 0.0
-    state['SR'] = 0.0
-    state['SA'] = 0.0
-    state['FY'] = 0.0
-    state['V'] = 10.0
-    state['P'] = 260000
+    state.FZ = 4000
+    state.IA = 0.0
+    state.SR = 0.0
+    state.SA = 0.0
+    state.FY = 0.0
+    state.V = 10.0
+    state.P = 260000
 
     # Define the slip angle range
     slip_angles = np.linspace(-15, 15, 50) * 3.14 / 180
@@ -42,20 +43,20 @@ if __name__ == "__main__":
 
     # Calculate and print out the tire model outputs
     for sa in slip_angles:
-        state['SA'] = sa
+        state.SA = sa
         myTireModel.solve(state, SolverMode.PureFy)
 
         # Grab results for plotting
-        FyArray.append(state['FY'])
-        #MzArray.append(state['MZ'])
-        #MxArray.append(state['MX'])
+        FyArray.append(state.FY)
+        #MzArray.append(state.MZ)
+        #MxArray.append(state.MX)
 
         print('{0:>10.1f} \t {1:>10.0f} \t {2:>10.1f} \t {3:>10.1f} \t {4:>10.1f}'
-              .format(state['SA'] * 180 / 3.14,
-                      state['FZ'],
-                      state['FY'],
-                      state['MZ'],
-                      state['MX']))
+              .format(state.SA * 180 / 3.14,
+                      state.FZ,
+                      state.FY,
+                      state.MZ,
+                      state.MX))
 
 # Plot results
 fig = plt.figure()

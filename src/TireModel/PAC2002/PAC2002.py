@@ -233,7 +233,7 @@ class PAC2002(TireModelBase):
 
         # 34
         mu_y = self.__calculate_mu_y(dfz, gamma_y)
-        D_y = mu_y * state['FZ'] * zeta1
+        D_y = mu_y * state.FZ * zeta1
 
         return D_y
 
@@ -257,7 +257,7 @@ class PAC2002(TireModelBase):
             print('Division by zero detected in K_Y calculation')
             denom = 0.000000001
 
-        K_y0 = self.PKY1 * self.FNOMIN * math.sin(2.0 * math.atan(state['FZ'] / denom)) * self.LFZ0 * self.LKY
+        K_y0 = self.PKY1 * self.FNOMIN * math.sin(2.0 * math.atan(state.FZ / denom)) * self.LFZ0 * self.LKY
 
         # 38
         K_y = K_y0 * (1-self.PKY3 * abs(gamma_y)) * zeta3
@@ -281,7 +281,7 @@ class PAC2002(TireModelBase):
     def __calculate_S_Vy(self, state, dfz, gamma_y, zeta4):
 
         # 41 - Moved parenthesis to sit "behind" gamma_y
-        S_Vy = state['FZ'] * ((self.PVY1 + self.PVY2 * dfz) * self.LVY + (self.PVY3 + self.PVY4 * dfz) * gamma_y) * self.LMUY * zeta4
+        S_Vy = state.FZ * ((self.PVY1 + self.PVY2 * dfz) * self.LVY + (self.PVY3 + self.PVY4 * dfz) * gamma_y) * self.LMUY * zeta4
 
         return S_Vy
 
@@ -321,7 +321,7 @@ class PAC2002(TireModelBase):
         mu_y = self.__calculate_mu_y(dfz, gamma_y)
 
         # 76
-        D_Vyk = mu_y * state['FZ'] * (self.RVY1 + self.RVY2 * dfz + self.RVY3 * gamma) * math.cos(math.atan(self.RVY4 * alpha))
+        D_Vyk = mu_y * state.FZ * (self.RVY1 + self.RVY2 * dfz + self.RVY3 * gamma) * math.cos(math.atan(self.RVY4 * alpha))
 
         return D_Vyk
 
@@ -357,7 +357,7 @@ class PAC2002(TireModelBase):
         mu_x = self.__calculate_mu_x(dfz, gamma_star)
 
         # 22
-        D_x = mu_x * state['FZ'] * zeta1
+        D_x = mu_x * state.FZ * zeta1
 
         return D_x
 
@@ -373,7 +373,7 @@ class PAC2002(TireModelBase):
     def __calculate_K_x(self, state, dfz):
 
         # 25
-        K_x = state['FZ'] * (self.PKX1 + self.PKX2 * dfz) * math.exp(self.PKX3 * dfz) * self.LKX
+        K_x = state.FZ * (self.PKX1 + self.PKX2 * dfz) * math.exp(self.PKX3 * dfz) * self.LKX
         # TODO: Check the "exp" function
 
         return K_x
@@ -398,7 +398,7 @@ class PAC2002(TireModelBase):
     def __calculate_S_Vx(self, state, dfz, zeta1):
 
         # 28
-        S_Vx = state['FZ'] * (self.PVX1 + self.PVX2 * dfz) * self.LVX * self.LMUX * zeta1
+        S_Vx = state.FZ * (self.PVX1 + self.PVX2 * dfz) * self.LVX * self.LMUX * zeta1
 
         return S_Vx
 
@@ -463,7 +463,7 @@ class PAC2002(TireModelBase):
     def __calculate_D_t(self, state, dfz, gamma_z, zeta5):
 
         # 52
-        D_t = state['FZ'] * (self.QDZ1 + self.QDZ2 * dfz) * (1 + self.QDZ3 * gamma_z + self.QDZ4 * gamma_z ** 2) * self.UNLOADED_RADIUS / self.FNOMIN * self.LTR * zeta5
+        D_t = state.FZ * (self.QDZ1 + self.QDZ2 * dfz) * (1 + self.QDZ3 * gamma_z + self.QDZ4 * gamma_z ** 2) * self.UNLOADED_RADIUS / self.FNOMIN * self.LTR * zeta5
 
         return D_t
 
@@ -509,7 +509,7 @@ class PAC2002(TireModelBase):
     def __calculate_D_r(self, state, dfz, gamma_z, zeta8):
 
         # 56
-        D_r = state['FZ'] * ((self.QDZ6 + self.QDZ7 * dfz) * self.LRES + (self.QDZ8 + self.QDZ9 * dfz) * gamma_z) * self.UNLOADED_RADIUS * self.LMUY + zeta8 - 1.0
+        D_r = state.FZ * ((self.QDZ6 + self.QDZ7 * dfz) * self.LRES + (self.QDZ8 + self.QDZ9 * dfz) * gamma_z) * self.UNLOADED_RADIUS * self.LMUY + zeta8 - 1.0
 
         return D_r
 
@@ -538,35 +538,35 @@ class PAC2002(TireModelBase):
     def solve(self, state, mode=SolverMode.All):
 
         if mode is SolverMode.PureFy or mode is SolverMode.PureMz:
-            state['FY'] = self.calculate_pure_fy(state)
+            state.FY = self.calculate_pure_fy(state)
 
         if mode is SolverMode.Fy or mode is SolverMode.All:
-            state['FY'] = self.calculate_fy(state)
+            state.FY = self.calculate_fy(state)
 
         if mode is SolverMode.PureFx:
-            state['FX'] = self.calculate_pure_fx(state)
+            state.FX = self.calculate_pure_fx(state)
 
         if mode is SolverMode.Fx or mode is SolverMode.All:
-            state['FX'] = self.calculate_fx(state)
+            state.FX = self.calculate_fx(state)
 
         if mode is SolverMode.PureMz:
-            state['MZ'] = self.calculate_pure_mz(state)
+            state.MZ = self.calculate_pure_mz(state)
 
         if mode is SolverMode.Mz or mode is SolverMode.All:
-            state['MZ'] = self.calculate_mz(state)
+            state.MZ = self.calculate_mz(state)
 
         if mode is SolverMode.Mx or mode is SolverMode.All:
-            state['MX'] = self.calculate_mx(state)
+            state.MX = self.calculate_mx(state)
 
         if mode is SolverMode.Mz or mode is SolverMode.All:
-            state['MY'] = self.calculate_my(state)
+            state.MY = self.calculate_my(state)
 
         if mode is SolverMode.Radius or mode is SolverMode.All:
-            state['RL'], state['RE'] = self.calculate_radius(state)
+            state.RL, state.RE = self.calculate_radius(state)
 
         if mode is SolverMode.Relaxation or mode is SolverMode.All:
-            state['SIGMA_ALPHA'] = self.calculate_lateral_relaxation_length(state)
-            state['SIGMA_KAPPA'] = self.calculate_longitudinal_relaxation_length(state)
+            state.SIGMA_ALPHA = self.calculate_lateral_relaxation_length(state)
+            state.SIGMA_KAPPA = self.calculate_longitudinal_relaxation_length(state)
 
 
         return state
@@ -587,10 +587,10 @@ class PAC2002(TireModelBase):
 
     def calculate_common_values(self, state):
         # First we calculate some standard values used in multiple locations
-        dfz = (state['FZ'] - self.FNOMIN / self.FNOMIN)
-        alpha_star = math.tan(state['SA']) * np.sign(state['V'])
-        gamma_star = math.sin(state['IA'])
-        kappa = state['SR']
+        dfz = (state.FZ - self.FNOMIN / self.FNOMIN)
+        alpha_star = math.tan(state.SA) * np.sign(state.V)
+        gamma_star = math.sin(state.IA)
+        kappa = state.SR
 
         return dfz, alpha_star, gamma_star, kappa
 
@@ -737,12 +737,12 @@ class PAC2002(TireModelBase):
         D_Vyk = self.__calculate_D_Vyk(state, dfz, gamma_y, alpha_star, gamma_star)
         S_Vyk = self.__calculate_S_Vyk(kappa, D_Vyk)
 
-        Fy_prime = state['FY'] - S_Vyk  # This is the combined lateral force without Fx induced Fy
+        Fy_prime = state.FY - S_Vyk  # This is the combined lateral force without Fx induced Fy
 
         # Pneumatic scrub (s) calcs
-        s = self.UNLOADED_RADIUS * (self.SSZ1 + self.SSZ2 * (state['FY'] / (self.FNOMIN * self.LFZ0)) + (self.SSZ3 + self.SSZ4 * dfz) * gamma_star) * self.LS
+        s = self.UNLOADED_RADIUS * (self.SSZ1 + self.SSZ2 * (state.FY / (self.FNOMIN * self.LFZ0)) + (self.SSZ3 + self.SSZ4 * dfz) * gamma_star) * self.LS
 
-        M_prime = -t * Fy_prime + M_zr + s * state['FX']
+        M_prime = -t * Fy_prime + M_zr + s * state.FX
 
         return M_prime
 
@@ -787,7 +787,7 @@ class PAC2002(TireModelBase):
         # Residual Moment Calculation
         M_zr = self.__calculate_M_zr(B_r, C_r, D_r, alpha_r, alpha_star)
 
-        fy_pure = state['FY']  # This requires that FY have been calculated already
+        fy_pure = state.FY  # This requires that FY have been calculated already
 
         mz_pure = -t * fy_pure + M_zr
 
@@ -799,7 +799,7 @@ class PAC2002(TireModelBase):
         dfz, alpha_star, gamma_star, kappa = self.calculate_common_values(state)
 
         # 86
-        M_x = self.UNLOADED_RADIUS * state['FZ'] * (self.QSX1 * self.LVMX - self.QSX2 * gamma_star + self.QSX3 * state['FY'] / self.FNOMIN) * self.LMX
+        M_x = self.UNLOADED_RADIUS * state.FZ * (self.QSX1 * self.LVMX - self.QSX2 * gamma_star + self.QSX3 * state.FY / self.FNOMIN) * self.LMX
 
         return M_x
 
@@ -809,7 +809,7 @@ class PAC2002(TireModelBase):
         dfz, alpha_star, gamma_star, kappa = self.calculate_common_values(state)
 
         # 87
-        M_y = self.UNLOADED_RADIUS * state['FZ'] * (self.QSY1 + self.QSY2 * state['FX']/self.FNOMIN + self.QSY3 * abs(state['V'] / self.LONGVL) + self.QSY4 * (state['V'] / self.LONGVL)**4) * self.LMY
+        M_y = self.UNLOADED_RADIUS * state.FZ * (self.QSY1 + self.QSY2 * state.FX/self.FNOMIN + self.QSY3 * abs(state.V / self.LONGVL) + self.QSY4 * (state.V / self.LONGVL)**4) * self.LMY
 
         return M_y
 
@@ -819,13 +819,13 @@ class PAC2002(TireModelBase):
         dfz, alpha_star, gamma_star, kappa = self.calculate_common_values(state)
 
         # If we don't have omega, we use an approximation
-        omega = state['V'] / (self.UNLOADED_RADIUS * 0.98)
+        omega = state.V / (self.UNLOADED_RADIUS * 0.98)
 
         # First we solve for dynamic displacement
         # External Effects
         speed_effect = self.QV2 * abs(omega) * self.UNLOADED_RADIUS / self.LONGVL
-        fx_effect = (self.QFCX * state['FX'] / self.FNOMIN)**2
-        fy_effect = (self.QFCY * state['FY'] / self.FNOMIN)**2
+        fx_effect = (self.QFCX * state.FX / self.FNOMIN)**2
+        fy_effect = (self.QFCY * state.FY / self.FNOMIN)**2
         camber_effect = self.QFCG * gamma_star**2
         external_effects = 1.0 + speed_effect - fx_effect - fy_effect + camber_effect
 
@@ -834,7 +834,7 @@ class PAC2002(TireModelBase):
 
         a = (self.QFZ2 / self.UNLOADED_RADIUS)**2
         b = self.QFZ1 / self.UNLOADED_RADIUS
-        c = -(state['FZ'] / (external_effects * self.FNOMIN))
+        c = -(state.FZ / (external_effects * self.FNOMIN))
 
         if b**2 - 4*a*c > 0:
             rho = (-b + math.sqrt(b**2 - 4*a*c)) / (2 * a)
@@ -855,7 +855,7 @@ class PAC2002(TireModelBase):
             return 0.0, 0.0
 
         # Eff. Roll. Radius #This is a newer version
-        R_e_old = R_omega - (self.FNOMIN / C_z0) * (self.DREFF * math.atan(self.BREFF * state['FZ'] / self.FNOMIN) + self.FREFF * state['FZ'] / self.FNOMIN)
+        R_e_old = R_omega - (self.FNOMIN / C_z0) * (self.DREFF * math.atan(self.BREFF * state.FZ / self.FNOMIN) + self.FREFF * state.FZ / self.FNOMIN)
 
 
         # Eff. Roll. Radius Pac 2002
@@ -879,7 +879,7 @@ class PAC2002(TireModelBase):
         gamma_y = self.__calculate_gamma_y(gamma_star)
 
         # 93
-        sigma_alpha = self.PTY1 * math.sin(2.0 * math.atan(state['FZ'] / (self.PTY2 * self.FNOMIN * self.LFZ0))) * (1 - self.PKY3 * abs(gamma_y)) * self.UNLOADED_RADIUS * self.LFZ0 * self.LSGAL
+        sigma_alpha = self.PTY1 * math.sin(2.0 * math.atan(state.FZ / (self.PTY2 * self.FNOMIN * self.LFZ0))) * (1 - self.PKY3 * abs(gamma_y)) * self.UNLOADED_RADIUS * self.LFZ0 * self.LSGAL
 
         return sigma_alpha
 
@@ -889,6 +889,6 @@ class PAC2002(TireModelBase):
         dfz, alpha_star, gamma_star, kappa = self.calculate_common_values(state)
 
         # 92
-        sigma_kappa = state['FZ'] * (self.PTX1 + self.PTX2 * dfz) * math.exp(-self.PTX3 * dfz) * (self.UNLOADED_RADIUS / self.FNOMIN) * self.LSGKP
+        sigma_kappa = state.FZ * (self.PTX1 + self.PTX2 * dfz) * math.exp(-self.PTX3 * dfz) * (self.UNLOADED_RADIUS / self.FNOMIN) * self.LSGKP
 
         return sigma_kappa
