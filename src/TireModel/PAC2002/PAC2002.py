@@ -1,5 +1,7 @@
 __author__ = 'henningo'
 
+import pandas as pd
+
 from ...Core import TireState
 from ..tiremodelbase import TireModelBase
 from ..solvermode import SolverMode
@@ -606,6 +608,19 @@ class PAC2002(TireModelBase):
             states.V.append(state.V)
             states.P.append(state.P)
 
+
+        states = pd.DataFrame({'FX': states.FX,
+                               'FY': states.FY,
+                               'FZ': states.FZ,
+                               'MX': states.MX,
+                               'MY': states.MY,
+                               'MZ': states.MZ,
+                               'SA': states.SA,
+                               'SR': states.SR,
+                               'IA': states.IA,
+                               'V': states.V,
+                               'P': states.P,
+        })
         return states
 
     def get_parameters(self):
