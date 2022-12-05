@@ -10,11 +10,11 @@ from ..solvermode import SolverMode
 
 class Pacejka94(TireModelBase, PureLateral, PureLongitudinal, AligningMoment):
     def __init__(self,
-                 a0=1.4,
+                 a0=30.4,
                  a1=0,
-                 a2=1100,
-                 a3=1100,
-                 a4=10,
+                 a2=1,
+                 a3=10000,
+                 a4=1000,
                  a5=0,
                  a6=0,
                  a7=-2,

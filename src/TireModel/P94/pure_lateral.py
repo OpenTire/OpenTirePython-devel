@@ -4,14 +4,14 @@ from math import sin, atan, copysign
 
 class PureLateral():
     def __init__(self,
-                 a0=1.5,
+                 a0=1,
                  a1=0,
-                 a2=1.1,
-                 a3=62700,
-                 a4=10000,
+                 a2=0,
+                 a3=1,
+                 a4=1,
                  a5=0,
                  a6=0,
-                 a7=-2,
+                 a7=0,
                  a8=0,
                  a9=0,
                  a10=0,
@@ -76,9 +76,9 @@ class PureLateral():
 
     def calculate_pure_fy(self, state):
         copy_state = deepcopy(state)
-        copy_state.FZ = copy_state.FZ/1000
+        copy_state.FZ = copy_state.FZ
         copy_state.SR = copy_state.SR*100
-        copy_state.SA = copy_state.SA*3.14/180
+        copy_state.SA = copy_state.SA
         C = self.__calculate_C()
         BCD = self.__calculate_BCD(copy_state)
         D = self.__calculate_D(copy_state)
