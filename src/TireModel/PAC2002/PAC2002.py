@@ -1,5 +1,7 @@
 __author__ = 'henningo'
 
+import pandas as pd
+
 from ...Core import TireState
 from ..tiremodelbase import TireModelBase
 from ..solvermode import SolverMode
@@ -541,19 +543,29 @@ class PAC2002(TireModelBase):
         state = TireState()
         states = TireState(FX=[], FY=[], FZ=[], MX=[], MY=[], MZ=[], SA=[], SR=[], IA=[], V=[], P=[])
         state_table = TireState(FX=[], FY=[], FZ=[], MX=[], MY=[], MZ=[], SA=[], SR=[], IA=[], V=[], P=[])
-        state_table.FZ = input_state.FZ * len(input_state.SA) * len(input_state.SR)
-        state_table.IA = input_state.IA * len(input_state.SA) * len(input_state.SR)
-        state_table.SA = input_state.SA * len(input_state.SR)
-        state_table.SR = len(input_state.SA) * input_state.SR
 
+        for load in input_state.FZ:
+            for camber in input_state.IA:
+                for speed in input_state.V:
+                    for pressure in input_state.P:
+                        for slip_ratio in input_state.SR:
+                            for slip_angle in input_state.SA:
+                                state_table.FZ.append(load)
+                                state_table.SA.append(slip_angle)
+                                state_table.IA.append(camber)
+                                state_table.SR.append(slip_ratio)
+                                state_table.V.append(speed)
+                                state_table.P.append(pressure)
 
-        for fz, ia, sr, sa in zip(state_table.FZ, state_table.IA, state_table.SR, state_table.SA):
+        for fz, ia, sr, sa, v, p in zip(state_table.FZ, state_table.IA, state_table.SR, state_table.SA, state_table.V, state_table.P):
             state.FZ = fz
             state.IA = ia
             state.SR = sr
             state.SA = sa
+            state.V = v
+            state.P = p
 
-            if mode is SolverMode.PureFy or mode is SolverMode.PureMz:
+            if (mode is SolverMode.PureFy) or (mode is SolverMode.PureMz):
                 state.FY = self.calculate_pure_fy(state)
 
             if mode is SolverMode.Fy or mode is SolverMode.All:
@@ -584,18 +596,31 @@ class PAC2002(TireModelBase):
                 state.SIGMA_ALPHA = self.calculate_lateral_relaxation_length(state)
                 state.SIGMA_KAPPA = self.calculate_longitudinal_relaxation_length(state)
 
-        states.FX.append(state.FX)
-        states.FY.append(state.FY)
-        states.FZ.append(state.FZ)
-        states.MX.append(state.MX)
-        states.MY.append(state.MY)
-        states.MZ.append(state.MZ)
-        states.SA.append(state.SA)
-        states.SR.append(state.SR)
-        states.IA.append(state.IA)
-        states.V.append(state.V)
-        states.P.append(state.P)
+            states.FX.append(state.FX)
+            states.FY.append(state.FY)
+            states.FZ.append(state.FZ)
+            states.MX.append(state.MX)
+            states.MY.append(state.MY)
+            states.MZ.append(state.MZ)
+            states.SA.append(state.SA)
+            states.SR.append(state.SR)
+            states.IA.append(state.IA)
+            states.V.append(state.V)
+            states.P.append(state.P)
 
+
+        states = pd.DataFrame({'FX': states.FX,
+                               'FY': states.FY,
+                               'FZ': states.FZ,
+                               'MX': states.MX,
+                               'MY': states.MY,
+                               'MZ': states.MZ,
+                               'SA': states.SA,
+                               'SR': states.SR,
+                               'IA': states.IA,
+                               'V': states.V,
+                               'P': states.P,
+        })
         return states
 
     def get_parameters(self):
